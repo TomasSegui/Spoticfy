@@ -138,7 +138,7 @@ const getAlbumesByArtista = (req, res) => {
 
 const getCancionesByArtista = (req, res) => {
 
-    const id = req.body;
+    const id = req.params.id;
     Connection.query("SELECT canciones.id AS idcancion, canciones.nombre, artistas.nombre AS nombreartista, albumes.nombre, canciones.duracion, canciones.reproducciones FROM((canciones INNER JOIN albumes ON canciones.album = albumes.id) INNER JOIN artistas ON artistas.id = albumes.artista) WHERE albumes.id = ?" , [id], (error, resultado) => {
 
         if (error) {

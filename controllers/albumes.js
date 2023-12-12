@@ -33,7 +33,7 @@ const getAlbumes = (_, res) => {
 const getAlbum = (req, res) => {
 
     const id = req.params.id; 
-    Connection.query("SELECT * FROM almbumes WHERE id=?" , [id] , (error, resultado) => {
+    Connection.query("SELECT * FROM albumes WHERE id=?" , [id] , (error, resultado) => {
 
         if (error) {
             return res.status(500).json({ mensaje: "error" });
@@ -113,11 +113,37 @@ const updateAlbum = (req, res) => {
 };
 
 const deleteAlbum = (req, res) => {
+
+    const id = req.params.id;
+    Connection.query("DELETE FROM albumes WHERE id = ?" , [id], (error, resultado) => {
+
+        if (error) {
+            return res.status(500).json({ mensaje: "error" });
+        }
+        return res.status(200).json({ mensaje: "album eliminado" });
+
+    });
+
+
     // Completar con la consulta que elimina un album
     // Recordar que los parámetros de una consulta DELETE se encuentran en req.params
 };
 
 const getCancionesByAlbum = (req, res) => {
+
+    const id = req.params.id;
+    Connection.query("SELECT * FROM canciones WHERE album = ?" , [id], (error, resultado) => {
+
+        if (error) {
+            return res.status(500).json({ mensaje: "error" });
+        }
+        if (!resultado) {
+            return res.status(404).json({ mensaje: "No hay ninguna cancion de ese album" });
+        }
+        return res.status(200).json(resultado);
+
+    });
+
     // Completar con la consulta que devuelve las canciones de un album
     // Recordar que los parámetros de una consulta GET se encuentran en req.params
     // Deberían devolver los datos de la misma forma que getCanciones
